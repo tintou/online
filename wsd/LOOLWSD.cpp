@@ -256,7 +256,7 @@ inline void checkSessionLimitsAndWarnClients()
 {
 #if !MOBILEAPP
     size_t docBrokerCount = DocBrokers.size() - ConvertToBroker::getInstanceCount();
-    if (docBrokerCount > LOOLWSD::MaxDocuments || LOOLWSD::NumConnections >= LOOLWSD::MaxConnections)
+    if (docBrokerCount > static_cast<size_t>(LOOLWSD::MaxDocuments) || LOOLWSD::NumConnections >= LOOLWSD::MaxConnections)
     {
         const std::string info = Poco::format(PAYLOAD_INFO_LIMIT_REACHED, LOOLWSD::MaxDocuments, LOOLWSD::MaxConnections);
         LOG_INF("Sending client 'limitreached' message: " << info);
