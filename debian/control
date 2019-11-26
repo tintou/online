@@ -17,8 +17,8 @@ Build-Depends: debhelper (>= 9),
                m4,
                nodejs,
                pkg-config,
-               python-lxml,
-               python-polib
+               python3-lxml,
+               python3-polib
 Standards-Version: 3.9.7
 
 Package: loolwsd
