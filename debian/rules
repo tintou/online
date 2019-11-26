@@ -5,15 +5,20 @@ DPKG_EXPORT_BUILDFLAGS = 1
 
 include /usr/share/dpkg/default.mk
 
-CONFFLAGS = --enable-silent-rules --prefix=/usr --localstatedir=/var --sysconfdir=/etc --with-lokit-path=`pwd`/bundled/include --disable-setcap $(CONFIG_OPTIONS)
+CONFFLAGS = --enable-silent-rules \
+            --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
+            --localstatedir=/var \
+            --sysconfdir=/etc \
+            --with-lo-path=/usr/lib/libreoffice \
+            --with-lokit-path=`pwd`/bundled/include \
+            --disable-setcap
 
 # main packaging script based on dh7 syntax
 %:
-	dh $@ --with=systemd --parallel
+	dh $@ --with=autoreconf,systemd --parallel
 
 override_dh_auto_configure:
-	./autogen.sh
-	./configure $(CONFFLAGS)
+	dh_auto_configure -- $(CONFFLAGS)
 
 override_dh_auto_test:
 	# do not test
@@ -21,6 +26,3 @@ override_dh_auto_test:
 override_dh_installinit:
 	# no init.d scripts here, assume systemd
 
-override_dh_gencontrol:
-	# put package names of LibreOffice here
-	# dh_gencontrol -- -Vlo:Depends=""
