@@ -5,11 +5,11 @@ DPKG_EXPORT_BUILDFLAGS = 1
 
 include /usr/share/dpkg/default.mk
 
-CONFFLAGS = --enable-silent-rules --prefix=/usr --localstatedir=/var --sysconfdir=/etc --with-lokit-path=`pwd`/bundled/include --disable-setcap $(CONFIG_OPTIONS)
+CONFFLAGS = --enable-silent-rules --prefix=/usr --localstatedir=/var --sysconfdir=/etc --with-lokit-path=/usr/include/LibreOfficeKit --with-lo-path=/usr/lib/libreoffice --disable-setcap $(CONFIG_OPTIONS)
 
 # main packaging script based on dh7 syntax
 %:
-	dh $@ --with=systemd --parallel
+	dh $@ --with=systemd --with autoreconf --parallel
 
 override_dh_auto_configure:
 	./configure $(CONFFLAGS)
